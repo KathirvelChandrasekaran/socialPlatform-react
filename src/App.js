@@ -17,18 +17,25 @@ import AuthRoute from "./utils/authRoute";
 //Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { SET_AUTHENTICATED } from "./redux/types";
+import { logoutUser, GetUserData } from "./redux/actions/userActions";
+import Axios from "axios";
+
 const theme = CreateTheme(CustomTheme);
 
-let authenticated;
 const token = localStorage.FireToken;
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser());
     window.location.href = "/login";
-    authenticated = false;
     localStorage.clear();
   } else {
-    authenticated = true;
+    store.dispatch({
+      type: SET_AUTHENTICATED,
+    });
+    Axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(GetUserData());
   }
 }
 class App extends Component {
@@ -46,12 +53,10 @@ class App extends Component {
                     exact
                     path={"/login"}
                     component={Login}
-                    authenticated={authenticated}
                   ></AuthRoute>
                   <AuthRoute
                     exact
                     path={"/signup"}
-                    authenticated={authenticated}
                     component={Signup}
                   ></AuthRoute>
                 </Switch>
