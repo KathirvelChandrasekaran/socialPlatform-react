@@ -12,7 +12,9 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import PropTypes from "prop-types";
 
-import axios from "axios";
+//Redux
+import { connect } from "react-redux";
+import { loginUser } from "../redux/actions/userActions";
 
 const styles = {
   form: {
@@ -46,46 +48,35 @@ export class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      laoding: false,
       errors: {},
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
+  }
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const userData = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+    this.props.loginUser(userData, this.props.history);
+  };
 
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-    this.setState({
-      laoding: true,
-    });
-    const userData = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    axios
-      .post("/login", userData)
-      .then((res) => {
-        localStorage.setItem("FireToken", `Bearer ${res.data.token}`);
-        this.setState({
-          laoding: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          errors: err.response.data,
-          laoding: false,
-        });
-      });
-  };
   render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+    const { errors } = this.state;
     return (
       <Grid container className={classes.form}>
         <Grid item sm></Grid>
@@ -137,7 +128,7 @@ export class Login extends Component {
             </Button>
             <br></br>
 
-            {this.state.laoding ? (
+            {loading ? (
               <CircularProgress className={classes.spinner} color="secondary" />
             ) : (
               ""
@@ -156,6 +147,20 @@ export class Login extends Component {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapAtcionsToProps = {
+  loginUser,
+};
+export default connect(
+  mapStateToProps,
+  mapAtcionsToProps
+)(withStyles(styles)(Login));
