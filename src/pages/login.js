@@ -30,7 +30,7 @@ const styles = {
     marginTop: 30,
   },
   textField: {
-    margin: "10px auto 10px auto",
+    margin: "5px auto 5px auto",
   },
   customError: {
     color: "red",
@@ -69,7 +69,7 @@ export class Login extends Component {
     axios
       .post("/login", userData)
       .then((res) => {
-        console.log(res.data);
+        localStorage.setItem("FireToken", `Bearer ${res.data.token}`);
         this.setState({
           laoding: false,
         });
@@ -144,7 +144,7 @@ export class Login extends Component {
             )}
             <br></br>
             <span>
-              Not have an account then Signup <Link to="/signup">Here</Link>
+              Already have an account then Login <Link to="/login">Here</Link>
             </span>
           </form>
         </Grid>
