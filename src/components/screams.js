@@ -8,6 +8,9 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
 const styles = {
   card: {
     display: "flex",
@@ -24,6 +27,7 @@ const styles = {
 
 export class Screams extends Component {
   render() {
+    dayjs.extend(relativeTime);
     const {
       classes,
       scream: {
@@ -53,7 +57,7 @@ export class Screams extends Component {
             {userHandle}
           </Typography>
           <Typography variant="body2" color="secondary">
-            {createdAt}
+            {dayjs(createdAt).fromNow()}
           </Typography>
           <Typography variant="body1">{body}</Typography>
         </CardContent>
