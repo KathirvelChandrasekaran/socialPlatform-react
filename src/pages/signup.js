@@ -14,6 +14,8 @@ import PropTypes from "prop-types";
 
 import axios from "axios";
 
+import { connect } from "react-redux";
+import { signUpUser, logoutUser } from "../redux/actions/userActions";
 const styles = {
   form: {
     textAlign: "center",
@@ -48,9 +50,14 @@ export class Signup extends Component {
       password: "",
       confirmPassword: "",
       handle: "",
-      laoding: false,
       errors: {},
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
   }
 
   handleChange = (e) => {
@@ -70,26 +77,14 @@ export class Signup extends Component {
       confirmPassword: this.state.confirmPassword,
       handle: this.state.handle,
     };
-    axios
-      .post("/signup", newUserData)
-      .then((res) => {
-        localStorage.setItem("FireToken", `Bearer ${res.data.token}`);
-        this.setState({
-          laoding: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
-          errors: err.response.data,
-          laoding: false,
-        });
-      });
+    this.props.signUpUser(newUserData, this.props.history);
   };
   render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+    const { errors } = this.state;
     return (
       <Grid container className={classes.form}>
         <Grid item sm></Grid>
@@ -184,6 +179,16 @@ export class Signup extends Component {
 
 Signup.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  signUpUser: PropTypes.func.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+export default connect(mapStateToProps, { signUpUser })(
+  withStyles(styles)(Signup)
+);
