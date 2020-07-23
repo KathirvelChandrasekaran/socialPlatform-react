@@ -5,6 +5,8 @@ import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Screams from "../components/screams";
+import Profile from "../components/profile";
+
 export class Home extends Component {
   state = {
     screams: null,
@@ -37,7 +39,7 @@ export class Home extends Component {
             {recentScreamsMarkup}
           </Grid>
           <Grid item sm={4} xs={12}>
-            <p>Profile</p>
+            <Profile />
           </Grid>
         </Grid>
       </div>
