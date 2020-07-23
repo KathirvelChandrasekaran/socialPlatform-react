@@ -14,6 +14,9 @@ import Signup from "./pages/signup";
 
 import AuthRoute from "./utils/authRoute";
 
+//Redux
+import { Provider } from "react-redux";
+import store from "./redux/store";
 const theme = CreateTheme(CustomTheme);
 
 let authenticated;
@@ -31,30 +34,32 @@ if (token) {
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <div className="App">
-          <Router>
-            <div className="container">
-              <Navbar />
-              <Switch>
-                <Route exact path={"/"} component={Home}></Route>
-                <AuthRoute
-                  exact
-                  path={"/login"}
-                  component={Login}
-                  authenticated={authenticated}
-                ></AuthRoute>
-                <AuthRoute
-                  exact
-                  path={"/signup"}
-                  authenticated={authenticated}
-                  component={Signup}
-                ></AuthRoute>
-              </Switch>
-            </div>
-          </Router>
-        </div>
-      </MuiThemeProvider>
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
+          <div className="App">
+            <Router>
+              <div className="container">
+                <Navbar />
+                <Switch>
+                  <Route exact path={"/"} component={Home}></Route>
+                  <AuthRoute
+                    exact
+                    path={"/login"}
+                    component={Login}
+                    authenticated={authenticated}
+                  ></AuthRoute>
+                  <AuthRoute
+                    exact
+                    path={"/signup"}
+                    authenticated={authenticated}
+                    component={Signup}
+                  ></AuthRoute>
+                </Switch>
+              </div>
+            </Router>
+          </div>
+        </MuiThemeProvider>
+      </Provider>
     );
   }
 }
