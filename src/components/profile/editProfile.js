@@ -16,6 +16,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import EditIcon from "@material-ui/icons/Edit";
 
+import MyButton from "../../utils/button";
+
 const styles = {
   textField: {
     margin: "5px auto 5px auto",
@@ -79,7 +81,7 @@ export class EditProfile extends Component {
     const { classes } = this.props;
     return (
       <Fragment>
-        <Tooltip placement="top" title="Edit Details">
+        <Tooltip placement="bottom" title="Edit Details">
           <IconButton onClick={this.handleOpen} className={classes.button}>
             <EditIcon color="primary"></EditIcon>
           </IconButton>

@@ -10,8 +10,6 @@ import Paper from "@material-ui/core/Paper";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
@@ -24,6 +22,7 @@ import { connect } from "react-redux";
 import { uploadImage, logoutUser } from "../../redux/actions/userActions";
 
 import EditProfile from "./editProfile";
+import MyButton from "../../utils/button";
 
 const styles = {
   paper: {
@@ -107,14 +106,14 @@ const Profile = ({ classes, user, uploadImage, logoutUser }) => {
               onChange={imageUpload}
               hidden="hidden"
             />
-            <Tooltip title="Edit Profile Picture" placement="top">
-              <IconButton
-                onClick={handleEditPicture}
-                className={classes.buttons}
-              >
-                <EditIcon color="primary"></EditIcon>
-              </IconButton>
-            </Tooltip>
+            <MyButton
+              tip="Edit Profile Picture"
+              onClick={handleEditPicture}
+              btnClassName="button"
+              className={classes.button}
+            >
+              <EditIcon color="primary"></EditIcon>
+            </MyButton>
           </div>
           <hr />
           <div className="profile-details">
@@ -161,11 +160,13 @@ const Profile = ({ classes, user, uploadImage, logoutUser }) => {
             </span>
           </div>
         </div>
-        <Tooltip title="Logout" placement="top">
-          <IconButton onClick={handleLogout}>
-            <ExitToAppIcon color="primary"></ExitToAppIcon>
-          </IconButton>
-        </Tooltip>
+        <MyButton
+          tip="Logout"
+          onClick={handleLogout}
+          className={classes.button}
+        >
+          <ExitToAppIcon color="primary"></ExitToAppIcon>
+        </MyButton>
         <EditProfile></EditProfile>
       </Paper>
     ) : (
