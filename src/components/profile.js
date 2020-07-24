@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
@@ -31,8 +32,8 @@ const styles = {
       },
     },
     "& .profile-image": {
-      width: 200,
-      height: 200,
+      width: 150,
+      height: 150,
       objectFit: "cover",
       maxWidth: "100%",
       borderRadius: "50%",
@@ -64,92 +65,92 @@ const styles = {
   },
 };
 
-class Profile extends Component {
-  render() {
-    const {
-      classes,
-      loading,
-      createdAt,
-      handle,
-      imageUrl,
-      bio,
-      location,
-      website,
-    } = this.props;
-
-    let profileMarkup = !loading ? (
-      this.props.user.authenticated ? (
-        <Paper className={classes.paper}>
-          <div className={classes.profile}>
-            <div className="image-wrapper">
-              <img src={imageUrl} alt="profile" className="profile-image" />
-            </div>
-            <hr />
-            <div className="profile-details">
-              <MuiLink
-                component={Link}
-                to={`/users/${handle}`}
-                color="primary"
-                variant="h5"
-              >
-                @{handle}
-              </MuiLink>
-              <hr />
-              {bio && <Typography variant="body2">{bio}</Typography>}
-              <hr />
-              {location && (
-                <Fragment>
-                  <LocationOn color="primary" /> <span>{location}</span>
-                  <hr />
-                </Fragment>
-              )}
-              {website && (
-                <Fragment>
-                  <LinkIcon color="primary" />
-                  <a href={website} target="_blank" rel="noopener noreferrer">
-                    {" "}
-                    {website}
-                  </a>
-                  <hr />
-                </Fragment>
-              )}
-              <CalendarToday color="primary" /> &nbsp;
-              <span>Joined {dayjs(createdAt).format("MMM YYYY DD")}</span>
-            </div>
+const Profile = ({ classes, user }) => {
+  let profileMarkup = !user.loading ? (
+    user.authenticated ? (
+      <Paper className={classes.paper}>
+        <div className={classes.profile}>
+          <div className="image-wrapper">
+            <img
+              src={user.credentials.imageUrl}
+              alt="profile"
+              className="profile-image"
+            />
           </div>
-        </Paper>
-      ) : (
-        <Paper className={classes.paper}>
-          <Typography variant="body2" align="center">
-            No profile found, please login again
-          </Typography>
-          <div className={classes.buttons}>
-            <Button
-              variant="contained"
+          <hr />
+          <div className="profile-details">
+            <MuiLink
+              component={Link}
+              to={`/users/${user.credentials.handle}`}
               color="primary"
-              component={Link}
-              to="/login"
+              variant="h5"
             >
-              Login
-            </Button>
-            <Button
-              variant="contained"
-              color="secondary"
-              component={Link}
-              to="/signup"
-            >
-              Signup
-            </Button>
+              @{user.credentials.handle}
+            </MuiLink>
+            <hr />
+            {user.credentials.bio && (
+              <Typography variant="body2">{user.credentials.bio}</Typography>
+            )}
+            <hr />
+            {user.credentials.location && (
+              <Fragment>
+                <LocationOn color="primary" />{" "}
+                <span>{user.credentials.location}</span>
+                <hr />
+              </Fragment>
+            )}
+            {user.credentials.website && (
+              <Fragment>
+                <LinkIcon color="primary" />
+                <a
+                  href={user.credentials.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {" "}
+                  {user.credentials.website}
+                </a>
+                <hr />
+              </Fragment>
+            )}
+            <CalendarToday color="primary" /> &nbsp;
+            <span>
+              Joined {dayjs(user.credentials.createdAt).format("MMM YYYY DD")}
+            </span>
           </div>
-        </Paper>
-      )
+        </div>
+      </Paper>
     ) : (
-      <p>loading...</p>
-    );
+      <Paper className={classes.paper}>
+        <Typography variant="body2" align="center">
+          No profile found, please login again
+        </Typography>
+        <div className={classes.buttons}>
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            to="/login"
+          >
+            Login
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            component={Link}
+            to="/signup"
+          >
+            Signup
+          </Button>
+        </div>
+      </Paper>
+    )
+  ) : (
+    <CircularProgress color="secondary" />
+  );
 
-    return profileMarkup;
-  }
-}
+  return profileMarkup;
+};
 
 Profile.propTypes = {
   user: PropTypes.object.isRequired,

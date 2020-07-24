@@ -18,7 +18,6 @@ export class Home extends Component {
         this.setState({
           screams: res.data,
         });
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
