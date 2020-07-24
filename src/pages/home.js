@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Screams from "../components/screams";
-import Profile from "../components/profile";
+import Profile from "../components/profile/profile";
 
 export class Home extends Component {
   state = {

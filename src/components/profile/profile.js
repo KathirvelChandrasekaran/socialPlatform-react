@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -17,11 +17,12 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 import { connect } from "react-redux";
-import { uploadImage, logoutUser } from "../redux/actions/userActions";
+import { uploadImage, logoutUser } from "../../redux/actions/userActions";
 
-import axios from "axios";
+import EditProfile from "./editProfile";
 
 const styles = {
   paper: {
@@ -71,7 +72,11 @@ const styles = {
   },
 };
 
-const Profile = ({ classes, user, uploadImage }) => {
+const Profile = ({ classes, user, uploadImage, logoutUser }) => {
+  const handleLogout = () => {
+    logoutUser();
+  };
+
   const handleEditPicture = () => {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
@@ -152,6 +157,12 @@ const Profile = ({ classes, user, uploadImage }) => {
             </span>
           </div>
         </div>
+        <Tooltip title="Logout" placement="top">
+          <IconButton onClick={handleLogout}>
+            <ExitToAppIcon color="primary"></ExitToAppIcon>
+          </IconButton>
+        </Tooltip>
+        <EditProfile></EditProfile>
       </Paper>
     ) : (
       <Paper className={classes.paper}>
