@@ -18,6 +18,7 @@ import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import EditIcon from "@material-ui/icons/Edit";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import InfoIcon from "@material-ui/icons/Info";
 
 import { connect } from "react-redux";
 import { uploadImage, logoutUser } from "../../redux/actions/userActions";
@@ -127,7 +128,10 @@ const Profile = ({ classes, user, uploadImage, logoutUser }) => {
             </MuiLink>
             <hr />
             {user.credentials.bio && (
-              <Typography variant="body2">{user.credentials.bio}</Typography>
+              <Fragment>
+                <InfoIcon color="primary" /> &nbsp;
+                <span variant="body2">{user.credentials.bio}</span>
+              </Fragment>
             )}
             <hr />
             {user.credentials.location && (
