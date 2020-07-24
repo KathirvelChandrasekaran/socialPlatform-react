@@ -6,10 +6,9 @@ import {
 } from "../types";
 import axios from "axios";
 
-export const GetScreams = (dispatch) => {
-  dispatch({
-    type: LOADING_DATA,
-  });
+// Get all screams
+export const getScreams = () => (dispatch) => {
+  dispatch({ type: LOADING_DATA });
   axios
     .get("/screams")
     .then((res) => {
@@ -26,7 +25,8 @@ export const GetScreams = (dispatch) => {
     });
 };
 
-export const LikeScream = (screamId) => (dispatch) => {
+// Like a scream
+export const likeScream = (screamId) => (dispatch) => {
   axios
     .get(`/scream/${screamId}/like`)
     .then((res) => {
@@ -37,10 +37,10 @@ export const LikeScream = (screamId) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
-
-export const UnLikeScream = (screamId) => (dispatch) => {
+// Unlike a scream
+export const unlikeScream = (screamId) => (dispatch) => {
   axios
-    .get(`/scream/${screamId}/unLike`)
+    .get(`/scream/${screamId}/unlike`)
     .then((res) => {
       dispatch({
         type: UNLIKE_SCREAM,

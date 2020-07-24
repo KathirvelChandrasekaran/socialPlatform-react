@@ -16,7 +16,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 import EditIcon from "@material-ui/icons/Edit";
 
-import MyButton from "../../utils/button";
 
 const styles = {
   textField: {

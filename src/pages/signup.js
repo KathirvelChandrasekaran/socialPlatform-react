@@ -12,10 +12,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import PropTypes from "prop-types";
 
-import axios from "axios";
-
 import { connect } from "react-redux";
-import { signUpUser, logoutUser } from "../redux/actions/userActions";
+import { signUpUser } from "../redux/actions/userActions";
 const styles = {
   form: {
     textAlign: "center",

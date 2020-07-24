@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -7,25 +7,17 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Screams from "../components/screams";
 import Profile from "../components/profile/profile";
 
+import { connect } from "react-redux";
+import { getScreams } from "../redux/actions/dataActions";
+
 export class Home extends Component {
-  state = {
-    screams: null,
-  };
   componentDidMount() {
-    axios
-      .get("/screams")
-      .then((res) => {
-        this.setState({
-          screams: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.props.getScreams();
   }
   render() {
-    let recentScreamsMarkup = this.state.screams ? (
-      this.state.screams.map((scream) => (
+    const { screams, loading } = this.props.data;
+    let recentScreamsMarkup = !loading ? (
+      screams.map((scream) => (
         <Screams key={scream.screamId} scream={scream}></Screams>
       ))
     ) : (
@@ -46,4 +38,13 @@ export class Home extends Component {
   }
 }
 
-export default Home;
+Home.propTypes = {
+  getScreams: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  data: state.data,
+});
+
+export default connect(mapStateToProps, { getScreams })(Home);
