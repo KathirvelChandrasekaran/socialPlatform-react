@@ -16,9 +16,10 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { connect } from "react-redux";
-import { likeScream, unlikeScream } from "../redux/actions/dataActions";
+import { likeScream, unlikeScream } from "../../redux/actions/dataActions";
 
-import MyButton from "../utils/button";
+import MyButton from "../../utils/button";
+import DeleteScream from "./deleteScream";
 
 const styles = {
   card: {
@@ -34,7 +35,7 @@ const styles = {
   },
 };
 
-export class Screams extends Component {
+class Screams extends Component {
   likedScream = () => {
     if (
       this.props.user.likes &&
@@ -64,10 +65,9 @@ export class Screams extends Component {
         likeCount,
         commentCount,
       },
-    } = this.props;
-    const {
       user: { authenticated },
     } = this.props;
+
     const likeButton = !authenticated ? (
       <MyButton tip="Like">
         <Link to="/login">
@@ -83,6 +83,12 @@ export class Screams extends Component {
         <FavoriteBorderIcon color="primary" />
       </MyButton>
     );
+
+    const deleteButton =
+      authenticated && userHandle === this.props.credentials.handle ? (
+        <DeleteScream screamId={screamId} />
+      ) : null;
+
     return (
       <Card key={screamId} className={classes.card}>
         <CardMedia
@@ -99,6 +105,7 @@ export class Screams extends Component {
           >
             {userHandle}
           </Typography>
+          {deleteButton}
           <Typography variant="body2" color="secondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
@@ -125,6 +132,7 @@ Screams.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  credentials: state.user.credentials,
 });
 
 const mapActionsToProps = {

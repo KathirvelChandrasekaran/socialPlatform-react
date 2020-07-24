@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import Screams from "../components/screams";
+import Screams from "../components/screams/screams";
 import Profile from "../components/profile/profile";
 
 import { connect } from "react-redux";
