@@ -84,3 +84,16 @@ const setAuthHeader = (token) => {
   axios.defaults.headers.common["Authorization"] = fireToken;
   localStorage.setItem("FireToken", fireToken);
 };
+
+export const uploadImage = (formData) => (dispatch) => {
+  dispatch({
+    type: LOADING_USER,
+  });
+  axios
+    .post("/user/image", formData)
+    .then(() => {
+      dispatch(GetUserData());
+      console.log("Uploading image");
+    })
+    .catch((err) => console.log(err));
+};

@@ -10,12 +10,18 @@ import Paper from "@material-ui/core/Paper";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
 import CalendarToday from "@material-ui/icons/CalendarToday";
+import EditIcon from "@material-ui/icons/Edit";
 
 import { connect } from "react-redux";
+import { uploadImage, logoutUser } from "../redux/actions/userActions";
+
+import axios from "axios";
 
 const styles = {
   paper: {
@@ -65,7 +71,20 @@ const styles = {
   },
 };
 
-const Profile = ({ classes, user }) => {
+const Profile = ({ classes, user, uploadImage }) => {
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
+
+  const imageUpload = (e) => {
+    const image = e.target.files[0];
+    const formData = new FormData();
+    console.log(image.name);
+    formData.append("image", image, image.name);
+    uploadImage(formData);
+  };
+
   let profileMarkup = !user.loading ? (
     user.authenticated ? (
       <Paper className={classes.paper}>
@@ -76,6 +95,20 @@ const Profile = ({ classes, user }) => {
               alt="profile"
               className="profile-image"
             />
+            <input
+              type="file"
+              id="imageInput"
+              onChange={imageUpload}
+              hidden="hidden"
+            />
+            <Tooltip title="Edit Profile Picture" placement="top">
+              <IconButton
+                onClick={handleEditPicture}
+                className={classes.buttons}
+              >
+                <EditIcon color="primary"></EditIcon>
+              </IconButton>
+            </Tooltip>
           </div>
           <hr />
           <div className="profile-details">
@@ -94,7 +127,7 @@ const Profile = ({ classes, user }) => {
             <hr />
             {user.credentials.location && (
               <Fragment>
-                <LocationOn color="primary" />{" "}
+                <LocationOn color="primary" /> &nbsp;
                 <span>{user.credentials.location}</span>
                 <hr />
               </Fragment>
@@ -107,7 +140,7 @@ const Profile = ({ classes, user }) => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {" "}
+                  &nbsp;
                   {user.credentials.website}
                 </a>
                 <hr />
@@ -155,10 +188,20 @@ const Profile = ({ classes, user }) => {
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+const mapActionsToProps = {
+  uploadImage,
+  logoutUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(Profile));
