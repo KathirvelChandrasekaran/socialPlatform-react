@@ -6,7 +6,6 @@ import {
   LOADING_DATA,
   DELETE_SCREAM,
   POST_SCREAM,
-  STOP_LOADING_UI,
 } from "../types";
 
 const initialState = {
@@ -68,11 +67,7 @@ export default function (state = initialState, action) {
         ...state,
         screams: [action.payload, ...state.screams],
       };
-    case STOP_LOADING_UI:
-      return {
-        ...state,
-        loading: false,
-      };
+
     default:
       return state;
   }

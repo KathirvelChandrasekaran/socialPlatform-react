@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -21,6 +21,7 @@ import { likeScream, unlikeScream } from "../../redux/actions/dataActions";
 import MyButton from "../../utils/button";
 import DeleteScream from "./deleteScream";
 import ScreamDialog from "./screamDialog";
+
 const styles = {
   card: {
     display: "flex",
@@ -35,96 +36,85 @@ const styles = {
   },
 };
 
-class Screams extends Component {
-  likedScream = () => {
+const Screams = ({
+  classes,
+  likeScream,
+  unlikeScream,
+  user,
+  scream,
+  userHandle,
+}) => {
+  const userLikeScream = () => {
+    likeScream(scream.screamId);
+  };
+
+  const userUnLikeScream = () => {
+    unlikeScream(scream.screamId);
+  };
+  const likedScream = () => {
     if (
-      this.props.user.likes &&
-      this.props.user.likes.find(
-        (like) => like.screamId === this.props.scream.screamId
-      )
-    )
+      user.likes &&
+      user.likes.find((like) => like.screamId === scream.screamId)
+    ) {
       return true;
-    else return false;
+    } else {
+      return false;
+    }
   };
-  likeScream = () => {
-    this.props.likeScream(this.props.scream.screamId);
-  };
-  unlikeScream = () => {
-    this.props.unlikeScream(this.props.scream.screamId);
-  };
-  render() {
-    dayjs.extend(relativeTime);
-    const {
-      classes,
-      scream: {
-        body,
-        createdAt,
-        userImage,
-        userHandle,
-        screamId,
-        likeCount,
-        commentCount,
-      },
-      user: { authenticated },
-    } = this.props;
-
-    const likeButton = !authenticated ? (
-      <MyButton tip="Like">
-        <Link to="/login">
-          <FavoriteBorderIcon color="primary" />
-        </Link>
-      </MyButton>
-    ) : this.likedScream() ? (
-      <MyButton tip="Undo like" onClick={this.unlikeScream}>
-        <FavoriteIcon color="primary" />
-      </MyButton>
-    ) : (
-      <MyButton tip="Like" onClick={this.likeScream}>
+  dayjs.extend(relativeTime);
+  const likeButton = !user.authenticated ? (
+    <MyButton tip="Like">
+      <Link to="/login">
         <FavoriteBorderIcon color="primary" />
-      </MyButton>
-    );
+      </Link>
+    </MyButton>
+  ) : likedScream() ? (
+    <MyButton tip="Undo like" onClick={userUnLikeScream}>
+      <FavoriteIcon color="primary" />
+    </MyButton>
+  ) : (
+    <MyButton tip="Like" onClick={userLikeScream}>
+      <FavoriteBorderIcon color="primary" />
+    </MyButton>
+  );
 
-    const deleteButton =
-      authenticated && userHandle === this.props.credentials.handle ? (
-        <DeleteScream screamId={screamId} />
-      ) : null;
-
-    return (
-      <Card key={screamId} className={classes.card}>
-        <CardMedia
-          image={userImage}
-          title="User Image"
-          className={classes.image}
-        ></CardMedia>
-        <CardContent className={classes.details}>
-          <Typography
-            variant="h4"
-            component={Link}
-            to={`/users/${userHandle}`}
-            color="primary"
-          >
-            {userHandle}
-          </Typography>
-          {deleteButton}
-          <Typography variant="body2" color="secondary">
-            {dayjs(createdAt).fromNow()}
-          </Typography>
-          <Typography variant="body1">{body}</Typography>
-          {likeButton}
-          <span>{likeCount} Likes</span>
-          <MyButton tip="comments">
-            <ChatIcon color="primary" />
-          </MyButton>
-          <span>{commentCount} comments</span>
-          <ScreamDialog
-            screamId={screamId}
-            userHandle={userHandle}
-          ></ScreamDialog>
-        </CardContent>
-      </Card>
-    );
-  }
-}
+  return (
+    <Card key={scream.screamId} className={classes.card}>
+      <CardMedia
+        image={scream.userImage}
+        title="User Image"
+        className={classes.image}
+      ></CardMedia>
+      <CardContent className={classes.details}>
+        <Typography
+          variant="h4"
+          component={Link}
+          to={`/users/${scream.userHandle}`}
+          color="primary"
+        >
+          {scream.userHandle}
+        </Typography>
+        {user.authenticated && scream.userHandle === user.credentials.handle ? (
+          <DeleteScream screamId={scream.screamId} />
+        ) : null}
+        <Typography variant="body2" color="secondary">
+          {dayjs(scream.createdAt).fromNow()}
+        </Typography>
+        <Typography variant="body1">{scream.body}</Typography>
+        {likeButton}
+        <span>{scream.likeCount} Likes</span>
+        <MyButton tip="comments">
+          <ChatIcon color="primary" />
+        </MyButton>
+        <span>{scream.commentCount} comments</span>
+        <ScreamDialog
+          screamId={scream.screamId}
+          userHandle={scream.userHandle}
+        ></ScreamDialog>
+      </CardContent>
+    </Card>
+  );
+};
 
 Screams.propTypes = {
   likeScream: PropTypes.func.isRequired,
@@ -136,7 +126,6 @@ Screams.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  credentials: state.user.credentials,
 });
 
 const mapActionsToProps = {

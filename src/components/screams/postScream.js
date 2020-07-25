@@ -76,7 +76,6 @@ export class PostScream extends Component {
     this.props.postScream({
       body: this.state.body,
     });
-    this.handleClose();
   };
   render() {
     const { errors } = this.state;
