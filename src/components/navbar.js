@@ -6,13 +6,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 
-import AddIcon from "@material-ui/icons/Add";
 import HomeIcon from "@material-ui/icons/Home";
 import Notifications from "@material-ui/icons/Notifications";
 
 import { connect } from "react-redux";
 
 import MyButton from "../utils/button";
+import PostScream from './screams/postScream'
 export class NavBar extends Component {
   render() {
     const { authenticated } = this.props;
@@ -22,9 +22,7 @@ export class NavBar extends Component {
           <Toolbar className="nav-container">
             {authenticated ? (
               <Fragment>
-                <MyButton tip="Create a Post">
-                  <AddIcon color="primary"></AddIcon>
-                </MyButton>
+                <PostScream></PostScream>
                 <Link to="/">
                   <MyButton tip="Home">
                     <HomeIcon color="primary"></HomeIcon>
