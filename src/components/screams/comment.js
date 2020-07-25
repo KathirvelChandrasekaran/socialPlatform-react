@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -40,7 +40,7 @@ const Comment = ({ comments, classes }) => {
                 <Grid item sm={2}>
                   <img
                     src={userImage}
-                    alt="Image"
+                    alt="User Picture"
                     className={classes.image}
                   ></img>
                 </Grid>

@@ -18,6 +18,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 import MyButton from "../../utils/button";
 import LikeButton from "./likeButton";
 import Comment from "./comment";
+import CommentForm from "./commentForm";
 
 import { connect } from "react-redux";
 import { getScream } from "../../redux/actions/dataActions";
@@ -103,9 +104,10 @@ const ScreamDialog = ({
           <MyButton tip="comments">
             <ChatIcon color="primary" />
           </MyButton>
-          <span>{scream.commentCount} comments</span>
+          <span>{scream.commentCount}</span>
         </Grid>
         <hr className={classes.visiblehrool}></hr>
+        <CommentForm screamId={scream.screamId}></CommentForm>
         <Comment comments={scream.comments}></Comment>
       </Grid>
     </Fragment>
