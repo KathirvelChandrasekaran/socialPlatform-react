@@ -17,6 +17,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 
 import MyButton from "../../utils/button";
 import LikeButton from "./likeButton";
+import Comment from "./comment";
 
 import { connect } from "react-redux";
 import { getScream } from "../../redux/actions/dataActions";
@@ -25,6 +26,11 @@ const styles = {
   hrool: {
     border: "none",
     margin: 4,
+  },
+  visiblehrool: {
+    width: "100%",
+    borderBottom: "1px solid rgba(0,0,0,0.1)",
+    marginBottom: "20px",
   },
   profileImage: {
     maxWidth: 150,
@@ -99,6 +105,8 @@ const ScreamDialog = ({
           </MyButton>
           <span>{scream.commentCount} comments</span>
         </Grid>
+        <hr className={classes.visiblehrool}></hr>
+        <Comment comments={scream.comments}></Comment>
       </Grid>
     </Fragment>
   );
