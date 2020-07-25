@@ -20,7 +20,7 @@ import { likeScream, unlikeScream } from "../../redux/actions/dataActions";
 
 import MyButton from "../../utils/button";
 import DeleteScream from "./deleteScream";
-
+import ScreamDialog from "./screamDialog";
 const styles = {
   card: {
     display: "flex",
@@ -116,6 +116,10 @@ class Screams extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} comments</span>
+          <ScreamDialog
+            screamId={screamId}
+            userHandle={userHandle}
+          ></ScreamDialog>
         </CardContent>
       </Card>
     );
