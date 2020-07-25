@@ -13,8 +13,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import UnfoldMoreIcon from "@material-ui/icons/UnfoldMore";
 import CloseIcon from "@material-ui/icons/Close";
+import ChatIcon from "@material-ui/icons/Chat";
 
 import MyButton from "../../utils/button";
+import LikeButton from "./likeButton";
 
 import { connect } from "react-redux";
 import { getScream } from "../../redux/actions/dataActions";
@@ -36,6 +38,9 @@ const styles = {
   closeButton: {
     position: "absolute",
     left: "90%",
+  },
+  spinDiv: {
+    textAlign: "center",
   },
 };
 
@@ -59,7 +64,9 @@ const ScreamDialog = ({
   };
 
   const dialogMarkup = UI.loading ? (
-    <CircularProgress size={100}></CircularProgress>
+    <div className={classes.spinDiv}>
+      <CircularProgress size={100}></CircularProgress>
+    </div>
   ) : (
     <Fragment>
       <Grid container spacing={10}>
@@ -85,6 +92,12 @@ const ScreamDialog = ({
           </Typography>
           <hr className={classes.hrool}></hr>
           <Typography variant="body1">{scream.body}</Typography>
+          <LikeButton screamId={screamId}></LikeButton>
+          <span>{scream.likeCount} Likes</span>
+          <MyButton tip="comments">
+            <ChatIcon color="primary" />
+          </MyButton>
+          <span>{scream.commentCount} comments</span>
         </Grid>
       </Grid>
     </Fragment>

@@ -32,16 +32,17 @@ export default function (state = initialState, action) {
         ...state,
         scream: action.payload,
       };
+    // return {
+    //   ...state,
+    //   like: [
+    //     {
+    //       userHandle: state.credentials.handle,
+    //       payload: action.payload.screamId,
+    //     },
+    //   ],
+    // };
     case LIKE_SCREAM:
-      return {
-        ...state,
-        like: [
-          {
-            userHandle: state.credentials.handle,
-            payload: action.payload.screamId,
-          },
-        ],
-      };
+
     case UNLIKE_SCREAM:
       let index = state.screams.findIndex(
         (scream) => scream.screamId === action.payload.screamId

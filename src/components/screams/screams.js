@@ -9,18 +9,16 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 
 import ChatIcon from "@material-ui/icons/Chat";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { connect } from "react-redux";
-import { likeScream, unlikeScream } from "../../redux/actions/dataActions";
 
 import MyButton from "../../utils/button";
 import DeleteScream from "./deleteScream";
 import ScreamDialog from "./screamDialog";
+import LikeButton from "./likeButton";
 
 const styles = {
   card: {
@@ -38,45 +36,10 @@ const styles = {
 
 const Screams = ({
   classes,
-  likeScream,
-  unlikeScream,
   user,
   scream,
-  userHandle,
 }) => {
-  const userLikeScream = () => {
-    likeScream(scream.screamId);
-  };
-
-  const userUnLikeScream = () => {
-    unlikeScream(scream.screamId);
-  };
-  const likedScream = () => {
-    if (
-      user.likes &&
-      user.likes.find((like) => like.screamId === scream.screamId)
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   dayjs.extend(relativeTime);
-  const likeButton = !user.authenticated ? (
-    <MyButton tip="Like">
-      <Link to="/login">
-        <FavoriteBorderIcon color="primary" />
-      </Link>
-    </MyButton>
-  ) : likedScream() ? (
-    <MyButton tip="Undo like" onClick={userUnLikeScream}>
-      <FavoriteIcon color="primary" />
-    </MyButton>
-  ) : (
-    <MyButton tip="Like" onClick={userLikeScream}>
-      <FavoriteBorderIcon color="primary" />
-    </MyButton>
-  );
 
   return (
     <Card key={scream.screamId} className={classes.card}>
@@ -101,7 +64,7 @@ const Screams = ({
           {dayjs(scream.createdAt).fromNow()}
         </Typography>
         <Typography variant="body1">{scream.body}</Typography>
-        {likeButton}
+        <LikeButton screamId={scream.screamId}></LikeButton>
         <span>{scream.likeCount} Likes</span>
         <MyButton tip="comments">
           <ChatIcon color="primary" />
@@ -117,8 +80,6 @@ const Screams = ({
 };
 
 Screams.propTypes = {
-  likeScream: PropTypes.func.isRequired,
-  unlikeScream: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   scream: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
@@ -128,12 +89,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapActionsToProps = {
-  likeScream,
-  unlikeScream,
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(Screams));
+export default connect(mapStateToProps)(withStyles(styles)(Screams));
