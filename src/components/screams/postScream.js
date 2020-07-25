@@ -11,6 +11,8 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
+import SendIcon from "@material-ui/icons/Send";
+import PostAddIcon from "@material-ui/icons/PostAdd";
 
 import { connect } from "react-redux";
 import { postScream } from "../../redux/actions/dataActions";
@@ -20,7 +22,6 @@ const styles = {
   submitButton: {
     position: "relative",
     marginTop: 20,
-
   },
   progressSpinner: {
     position: "absolute",
@@ -38,13 +39,42 @@ export class PostScream extends Component {
     body: "",
     errors: {},
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({
+        errors: nextProps.UI.errors,
+      });
+    }
+    if (!nextProps.UI.errors && !nextProps.UI.loading) {
+      this.setState({
+        body: "",
+      });
+      this.handleClose();
+    }
+  }
+
   handleOpen = () => {
     this.setState({ open: true });
   };
+
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, error: "" });
   };
-  
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.postScream({
+      body: this.state.body,
+    });
+    this.handleClose();
+  };
   render() {
     const { errors } = this.state;
     const {
@@ -70,19 +100,23 @@ export class PostScream extends Component {
           >
             <CloseIcon></CloseIcon>
           </MyButton>
-          <DialogTitle>Create a new Post</DialogTitle>
+
+          <DialogTitle>
+            <PostAddIcon color="primary"></PostAddIcon> Create a new Post
+          </DialogTitle>
           <DialogContent>
             <form onSubmit={this.handleSubmit}>
               <TextField
                 name="body"
                 type="text"
-                label="SCREAM!!"
+                label="Post Content"
                 multiline
                 placeholder="Create a new Post"
                 error={errors.body ? true : false}
                 helperText={errors.body}
                 className={classes.textField}
                 onChange={this.handleChange}
+                required
                 fullWidth
               />
               <Button
@@ -92,7 +126,9 @@ export class PostScream extends Component {
                 className={classes.submitButton}
                 disabled={loading}
               >
-                Submit
+                &nbsp;
+                <SendIcon></SendIcon>
+                &nbsp; Post
                 {loading && (
                   <CircularProgress
                     size={30}

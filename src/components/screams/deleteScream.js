@@ -17,7 +17,7 @@ import { deleteScream } from "../../redux/actions/dataActions";
 const styles = {
   deleteButton: {
     margin: "auto",
-    left: 10 
+    left: 10,
   },
 };
 
@@ -43,6 +43,7 @@ export class DeleteScream extends Component {
     this.setState({
       open: false,
     });
+    this.handleClose();
   };
 
   render() {
