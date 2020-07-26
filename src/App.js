@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Navbar from "./components/navbar";
+import Navbar from "./components/navbar/navbar";
 
 import jwtDecode from "jwt-decode";
 

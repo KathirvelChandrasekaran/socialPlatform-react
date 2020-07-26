@@ -7,12 +7,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 
 import HomeIcon from "@material-ui/icons/Home";
-import Notifications from "@material-ui/icons/Notifications";
+import Notifications from "./notifications";
 
 import { connect } from "react-redux";
 
-import MyButton from "../utils/button";
-import PostScream from './screams/postScream'
+import MyButton from "../../utils/button";
+import PostScream from "../screams/postScream";
 export class NavBar extends Component {
   render() {
     const { authenticated } = this.props;
@@ -28,9 +28,7 @@ export class NavBar extends Component {
                     <HomeIcon color="primary"></HomeIcon>
                   </MyButton>
                 </Link>
-                <MyButton tip="Notifications">
-                  <Notifications color="primary"></Notifications>
-                </MyButton>
+                <Notifications></Notifications>
               </Fragment>
             ) : (
               <Fragment>
