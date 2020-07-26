@@ -11,6 +11,7 @@ import CustomTheme from "./utils/theme";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import User from "./pages/user";
 
 import AuthRoute from "./utils/authRoute";
 
@@ -49,6 +50,7 @@ class App extends Component {
                 <Navbar />
                 <Switch>
                   <Route exact path={"/"} component={Home}></Route>
+                  <Route exact path={"/users/:handle"} component={User}></Route>
                   <AuthRoute
                     exact
                     path={"/login"}
