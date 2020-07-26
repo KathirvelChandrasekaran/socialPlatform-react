@@ -24,6 +24,9 @@ import Axios from "axios";
 
 const theme = CreateTheme(CustomTheme);
 
+Axios.defaults.baseURL =
+  "https://us-central1-socialplatform-db12b.cloudfunctions.net/api";
+
 const token = localStorage.FireToken;
 if (token) {
   const decodedToken = jwtDecode(token);

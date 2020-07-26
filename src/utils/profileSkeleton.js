@@ -72,9 +72,6 @@ const styles = {
     width: "30%",
     marginBottom: 10,
   },
-  paper: {
-    padding: 20
-  },
 };
 
 const ProfileSkeleton = ({ classes }) => {
