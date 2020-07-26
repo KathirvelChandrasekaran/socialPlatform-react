@@ -74,6 +74,8 @@ const ScreamDialog = ({
     let newpath = `/users/${userHandle}/scream/${screamId}`;
     window.history.pushState(null, null, newpath);
 
+    if (oldpath === newpath) oldpath = `/users/${userHandle}`;
+
     setOpen(true);
     setNewPath(newpath);
     setOldPath(oldpath);
