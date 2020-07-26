@@ -1,4 +1,4 @@
-Visit the App(https://socialplatform-db12b.web.app/)
+Visit the App [Social Platform](https://socialplatform-db12b.web.app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
