@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -58,16 +58,31 @@ const ScreamDialog = ({
   userHandle,
   scream,
   UI,
+  opendialog,
 }) => {
   const [open, setOpen] = useState(false);
+  const [oldPath, setOldPath] = useState("");
+  const [newPath, setNewPath] = useState("");
+  useEffect(() => {
+    if (opendialog) {
+      handleOpen();
+    }
+  }, []);
 
   const handleOpen = () => {
+    let oldpath = window.location.pathname;
+    let newpath = `/users/${userHandle}/scream/${screamId}`;
+    window.history.pushState(null, null, newpath);
+
     setOpen(true);
+    setNewPath(newpath);
+    setOldPath(oldpath);
     getScream(screamId);
   };
 
   const handleClose = () => {
     setOpen(false);
+    window.history.pushState(null, null, oldPath);
   };
 
   const dialogMarkup = UI.loading ? (

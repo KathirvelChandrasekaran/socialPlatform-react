@@ -34,11 +34,7 @@ const styles = {
   },
 };
 
-const Screams = ({
-  classes,
-  user,
-  scream,
-}) => {
+const Screams = ({ classes, user, scream, opendialog }) => {
   dayjs.extend(relativeTime);
 
   return (
@@ -71,6 +67,7 @@ const Screams = ({
         </MyButton>
         <span>{scream.commentCount} comments</span>
         <ScreamDialog
+          opendialog={opendialog}
           screamId={scream.screamId}
           userHandle={scream.userHandle}
         ></ScreamDialog>
@@ -83,6 +80,7 @@ Screams.propTypes = {
   user: PropTypes.object.isRequired,
   scream: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  opendialog: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => ({
