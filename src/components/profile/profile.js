@@ -9,7 +9,6 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import MuiLink from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import LocationOn from "@material-ui/icons/LocationOn";
 import LinkIcon from "@material-ui/icons/Link";
@@ -23,6 +22,8 @@ import { uploadImage, logoutUser } from "../../redux/actions/userActions";
 
 import EditProfile from "./editProfile";
 import MyButton from "../../utils/button";
+import ProfileSkeleton from '../../utils/profileSkeleton'
+
 
 const styles = {
   paper: {
@@ -195,7 +196,7 @@ const Profile = ({ classes, user, uploadImage, logoutUser }) => {
       </Paper>
     )
   ) : (
-    <CircularProgress color="secondary" />
+    <ProfileSkeleton></ProfileSkeleton>
   );
 
   return profileMarkup;

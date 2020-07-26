@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import Grid from "@material-ui/core/Grid";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Screams from "../components/screams/screams";
 import Profile from "../components/profile/profile";
+import Skeleton from '../utils/skeleton'
 
 import { connect } from "react-redux";
 import { getScreams } from "../redux/actions/dataActions";
@@ -21,7 +21,7 @@ export class Home extends Component {
         <Screams key={scream.screamId} scream={scream}></Screams>
       ))
     ) : (
-      <CircularProgress color="secondary" />
+      <Skeleton></Skeleton>
     );
     return (
       <div>

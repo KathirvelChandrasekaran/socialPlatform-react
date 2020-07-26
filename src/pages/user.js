@@ -4,6 +4,8 @@ import axios from "axios";
 
 import Scream from "../components/screams/screams";
 import StaticProfile from "../components/profile/staticProfile";
+import Skeleton from "../utils/skeleton";
+import ProfileSkeleton from "../utils/profileSkeleton";
 
 import Grid from "@material-ui/core/Grid";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -38,7 +40,7 @@ class User extends Component {
     const { screams, loading } = this.props.data;
     const { screamIdParam } = this.state;
     const screamsMarkup = loading ? (
-      <CircularProgress color="secondary" />
+      <Skeleton></Skeleton>
     ) : screams === null ? (
       <p>Screams not found</p>
     ) : !screamIdParam ? (
@@ -49,8 +51,10 @@ class User extends Component {
       screams.map((scream) => {
         if (scream.screamId !== screamIdParam)
           return <Scream key={scream.screamId} scream={scream}></Scream>;
-          else
-          return <Scream key={scream.screamId} scream={scream} opendialog></Scream>
+        else
+          return (
+            <Scream key={scream.screamId} scream={scream} opendialog></Scream>
+          );
       })
     );
 
@@ -61,7 +65,7 @@ class User extends Component {
         </Grid>
         <Grid item sm={4} xs={12}>
           {this.state.profile === null ? (
-            <CircularProgress color="secondary" />
+            <ProfileSkeleton></ProfileSkeleton>
           ) : (
             <StaticProfile profile={this.state.profile} />
           )}
